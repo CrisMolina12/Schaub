@@ -3,7 +3,7 @@
 import type React from "react"
 
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabaseClient"
 import { UserPlus, Mail, User, KeyRound, Hash, Loader2 } from "lucide-react"
@@ -17,19 +17,6 @@ export default function Register() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const router = useRouter()
-
-  // Verificar si el usuario ya está autenticado
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data } = await supabase.auth.getSession()
-      if (data.session) {
-        // Si ya está autenticado, redirigir al dashboard
-        router.push("/")
-      }
-    }
-
-    checkAuth()
-  }, [router])
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
