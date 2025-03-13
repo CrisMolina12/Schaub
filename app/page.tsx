@@ -190,6 +190,7 @@ export default function Dashboard() {
       } catch (error) {
         console.error("Error al inicializar la aplicación:", error)
         setLoading(false)
+        router.push("/login")
       }
     }
 
@@ -944,7 +945,7 @@ export default function Dashboard() {
     const handleTouchEnd = () => {
       console.log("Touch end")
       setDraggingPlayer(null)
-      document.removeEventListener("touchmove", handleTouchMove,)
+      document.removeEventListener("touchmove", handleTouchMove)
       document.removeEventListener("touchend", handleTouchEnd)
     }
 
@@ -1553,6 +1554,7 @@ export default function Dashboard() {
                     strokeLinejoin="round"
                   >
                     <circle cx="12" cy="12" r="5" />
+                    <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12  r=" />
                     <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
                   </svg>
                 ) : (
@@ -2621,290 +2623,290 @@ export default function Dashboard() {
                       onChange={(e) => setNuevoEvento({ ...nuevoEvento, tipo: e.target.value })}
                       required
                       className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
-                    >
-                      <option value="amistoso">Amistoso</option>
-                      <option value="oficial">Oficial</option>
-                      <option value="entrenamiento">Entrenamiento</option>
-                      <option value="torneo">Torneo</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label htmlFor="estado" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Estado
-                    </label>
-                    <select
-                      id="estado"
-                      value={nuevoEvento.estado}
-                      onChange={(e) => setNuevoEvento({ ...nuevoEvento, estado: e.target.value })}
-                      required
-                      className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
-                    >
-                      <option value="programado">Programado</option>
-                      <option value="confirmado">Confirmado</option>
-                      <option value="cancelado">Cancelado</option>
-                      <option value="finalizado">Finalizado</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="descripcion"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                  >
-                    Descripción
-                  </label>
-                  <textarea
-                    id="descripcion"
-                    value={nuevoEvento.descripcion}
-                    onChange={(e) => setNuevoEvento({ ...nuevoEvento, descripcion: e.target.value })}
-                    placeholder="Detalles adicionales del partido..."
-                    rows={4}
-                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white resize-none"
-                  ></textarea>
-                </div>
-
-                <div className="flex justify-end">
-                  <button
-                    type="submit"
-                    className="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white py-2.5 px-6 rounded-lg font-medium flex items-center transition-all duration-300 shadow-md hover:shadow-lg"
-                  >
-                    <Plus className="w-5 h-5 mr-2" />
-                    Crear Evento
-                  </button>
-                </div>
-              </form>
-            </div>
-          </section>
-        )}
-
-        {/* SECCIÓN: PERFIL */}
-        {seccionActiva === "perfil" && (
-          <section>
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-              <div>
-                <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Mi Perfil</h2>
-                <p className="text-gray-600 dark:text-gray-300 mt-1">Gestiona tu información personal y estadísticas</p>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700">
-              <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-8 relative">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mt-20 -mr-20 z-0"></div>
-                <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full -mb-10 -ml-10 z-0"></div>
-
-                <div className="flex flex-col md:flex-row items-center relative z-10">
-                  <div className="mb-6 md:mb-0 md:mr-8">
-                    {userProfile?.avatar_url ? (
-                      <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-xl">
-                        <img
-                          src={userProfile.avatar_url || "/placeholder.svg"}
-                          alt={userProfile.nombre}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-32 h-32 bg-white text-blue-600 rounded-full flex items-center justify-center text-5xl font-bold border-4 border-white shadow-xl">
-                        {userProfile?.nombre?.charAt(0) || user?.email?.charAt(0)}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="text-center md:text-left text-white">
-                    <h3 className="text-2xl font-bold">{userProfile?.nombre || user?.email}</h3>
-                    <p className="text-white/80 mb-4">{user?.email}</p>
-
-                    <div className="flex flex-wrap gap-3 justify-center md:justify-start">
-                      {!editandoPerfil ? (
-                        <button
-                          onClick={() => setEditandoPerfil(true)}
-                          className="bg-white text-blue-600 hover:bg-gray-100 py-2.5 px-5 rounded-lg text-sm font-medium flex items-center transition-all shadow-md hover:shadow-lg"
-                        >
-                          <Edit className="w-4 h-4 mr-2" />
-                          Editar Perfil
-                        </button>
-                      ) : (
-                        <button
-                          onClick={guardarPerfil}
-                          className="bg-white text-blue-600 hover:bg-gray-100 py-2.5 px-5 rounded-lg text-sm font-medium flex items-center transition-all shadow-md hover:shadow-lg"
-                        >
-                          <Save className="w-4 h-4 mr-2" />
-                          Guardar Cambios
-                        </button>
-                      )}
-
-                      <button
-                        onClick={handleSignOut}
-                        className="bg-white/10 hover:bg-white/20 text-white py-2.5 px-5 rounded-lg text-sm font-medium flex items-center transition-all border border-white/20"
                       >
-                        <LogOut className="w-4 h-4 mr-2" />
-                        Cerrar Sesión
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-8">
-                {editandoPerfil ? (
-                  <div className="space-y-6 max-w-3xl mx-auto">
-                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 mb-6 border border-blue-100 dark:border-blue-800">
-                      <p className="text-blue-700 dark:text-blue-300 text-sm">
-                        Completa tu perfil para que tus compañeros puedan identificarte mejor en los partidos.
-                      </p>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="nombre"
-                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                      >
-                        Nombre
-                      </label>
-                      <input
-                        type="text"
-                        id="nombre"
-                        value={perfilEditable.nombre || ""}
-                        onChange={(e) => setPerfilEditable({ ...perfilEditable, nombre: e.target.value })}
-                        className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="numero_polera"
-                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                      >
-                        Número de Polera
-                      </label>
-                      <input
-                        type="number"
-                        id="numero_polera"
-                        value={perfilEditable.numero_polera || ""}
-                        onChange={(e) =>
-                          setPerfilEditable({
-                            ...perfilEditable,
-                            numero_polera: Number.parseInt(e.target.value) || null,
-                          })
-                        }
-                        className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="posicion"
-                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                      >
-                        Posición
-                      </label>
-                      <select
-                        id="posicion"
-                        value={perfilEditable.posicion || ""}
-                        onChange={(e) => setPerfilEditable({ ...perfilEditable, posicion: e.target.value })}
-                        className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
-                      >
-                        <option value="">Selecciona una posición</option>
-                        <option value="Portero">Portero</option>
-                        <option value="Defensa">Defensa</option>
-                        <option value="Mediocampista">Mediocampista</option>
-                        <option value="Delantero">Delantero</option>
+                        <option value="amistoso">Amistoso</option>
+                        <option value="oficial">Oficial</option>
+                        <option value="entrenamiento">Entrenamiento</option>
+                        <option value="torneo">Torneo</option>
                       </select>
                     </div>
 
                     <div>
-                      <label
-                        htmlFor="avatar"
-                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                      >
-                        Foto de Perfil
+                      <label htmlFor="estado" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Estado
                       </label>
-                      <div className="flex items-center gap-4">
+                      <select
+                        id="estado"
+                        value={nuevoEvento.estado}
+                        onChange={(e) => setNuevoEvento({ ...nuevoEvento, estado: e.target.value })}
+                        required
+                        className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+                      >
+                        <option value="programado">Programado</option>
+                        <option value="confirmado">Confirmado</option>
+                        <option value="cancelado">Cancelado</option>
+                        <option value="finalizado">Finalizado</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="descripcion"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    >
+                      Descripción
+                    </label>
+                    <textarea
+                      id="descripcion"
+                      value={nuevoEvento.descripcion}
+                      onChange={(e) => setNuevoEvento({ ...nuevoEvento, descripcion: e.target.value })}
+                      placeholder="Detalles adicionales del partido..."
+                      rows={4}
+                      className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white resize-none"
+                    ></textarea>
+                  </div>
+
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      className="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white py-2.5 px-6 rounded-lg font-medium flex items-center transition-all duration-300 shadow-md hover:shadow-lg"
+                    >
+                      <Plus className="w-5 h-5 mr-2" />
+                      Crear Evento
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
+          )}
+
+          {/* SECCIÓN: PERFIL */}
+          {seccionActiva === "perfil" && (
+            <section>
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+                <div>
+                  <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Mi Perfil</h2>
+                  <p className="text-gray-600 dark:text-gray-300 mt-1">Gestiona tu información personal y estadísticas</p>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700">
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-8 relative">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mt-20 -mr-20 z-0"></div>
+                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full -mb-10 -ml-10 z-0"></div>
+
+                  <div className="flex flex-col md:flex-row items-center relative z-10">
+                    <div className="mb-6 md:mb-0 md:mr-8">
+                      {userProfile?.avatar_url ? (
+                        <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                          <img
+                            src={userProfile.avatar_url || "/placeholder.svg"}
+                            alt={userProfile.nombre}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-32 h-32 bg-white text-blue-600 rounded-full flex items-center justify-center text-5xl font-bold border-4 border-white shadow-xl">
+                          {userProfile?.nombre?.charAt(0) || user?.email?.charAt(0)}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="text-center md:text-left text-white">
+                      <h3 className="text-2xl font-bold">{userProfile?.nombre || user?.email}</h3>
+                      <p className="text-white/80 mb-4">{user?.email}</p>
+
+                      <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+                        {!editandoPerfil ? (
+                          <button
+                            onClick={() => setEditandoPerfil(true)}
+                            className="bg-white text-blue-600 hover:bg-gray-100 py-2.5 px-5 rounded-lg text-sm font-medium flex items-center transition-all shadow-md hover:shadow-lg"
+                          >
+                            <Edit className="w-4 h-4 mr-2" />
+                            Editar Perfil
+                          </button>
+                        ) : (
+                          <button
+                            onClick={guardarPerfil}
+                            className="bg-white text-blue-600 hover:bg-gray-100 py-2.5 px-5 rounded-lg text-sm font-medium flex items-center transition-all shadow-md hover:shadow-lg"
+                          >
+                            <Save className="w-4 h-4 mr-2" />
+                            Guardar Cambios
+                          </button>
+                        )}
+
+                        <button
+                          onClick={handleSignOut}
+                          className="bg-white/10 hover:bg-white/20 text-white py-2.5 px-5 rounded-lg text-sm font-medium flex items-center transition-all border border-white/20"
+                        >
+                          <LogOut className="w-4 h-4 mr-2" />
+                          Cerrar Sesión
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-8">
+                  {editandoPerfil ? (
+                    <div className="space-y-6 max-w-3xl mx-auto">
+                      <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 mb-6 border border-blue-100 dark:border-blue-800">
+                        <p className="text-blue-700 dark:text-blue-300 text-sm">
+                          Completa tu perfil para que tus compañeros puedan identificarte mejor en los partidos.
+                        </p>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="nombre"
+                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                        >
+                          Nombre
+                        </label>
                         <input
-                          type="file"
-                          id="avatar"
-                          accept="image/*"
-                          onChange={handleImageUpload}
+                          type="text"
+                          id="nombre"
+                          value={perfilEditable.nombre || ""}
+                          onChange={(e) => setPerfilEditable({ ...perfilEditable, nombre: e.target.value })}
                           className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
                         />
+                      </div>
 
-                        {perfilEditable.avatar_url && (
-                          <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-200 dark:border-gray-600">
-                            <img
-                              src={perfilEditable.avatar_url || "/placeholder.svg"}
-                              alt="Vista previa"
-                              className="w-full h-full object-cover"
-                            />
+                      <div>
+                        <label
+                          htmlFor="numero_polera"
+                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                        >
+                          Número de Polera
+                        </label>
+                        <input
+                          type="number"
+                          id="numero_polera"
+                          value={perfilEditable.numero_polera || ""}
+                          onChange={(e) =>
+                            setPerfilEditable({
+                              ...perfilEditable,
+                              numero_polera: Number.parseInt(e.target.value) || null,
+                            })
+                          }
+                          className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+                        />
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="posicion"
+                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                        >
+                          Posición
+                        </label>
+                        <select
+                          id="posicion"
+                          value={perfilEditable.posicion || ""}
+                          onChange={(e) => setPerfilEditable({ ...perfilEditable, posicion: e.target.value })}
+                          className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+                        >
+                          <option value="">Selecciona una posición</option>
+                          <option value="Portero">Portero</option>
+                          <option value="Defensa">Defensa</option>
+                          <option value="Mediocampista">Mediocampista</option>
+                          <option value="Delantero">Delantero</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="avatar"
+                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                        >
+                          Foto de Perfil
+                        </label>
+                        <div className="flex items-center gap-4">
+                          <input
+                            type="file"
+                            id="avatar"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+                          />
+
+                          {perfilEditable.avatar_url && (
+                            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-200 dark:border-gray-600">
+                              <img
+                                src={perfilEditable.avatar_url || "/placeholder.svg"}
+                                alt="Vista previa"
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-8">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="bg-gray-50 dark:bg-gray-700/50 p-5 rounded-xl flex items-center">
+                          <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3 mr-4">
+                            <User className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                           </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="bg-gray-50 dark:bg-gray-700/50 p-5 rounded-xl flex items-center">
-                        <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3 mr-4">
-                          <User className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                          <div>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">Número de Polera</p>
+                            <p className="text-xl font-medium text-gray-800 dark:text-white">
+                              {userProfile?.numero_polera || "No asignado"}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">Número de Polera</p>
-                          <p className="text-xl font-medium text-gray-800 dark:text-white">
-                            {userProfile?.numero_polera || "No asignado"}
-                          </p>
-                        </div>
-                      </div>
 
-                      <div className="bg-gray-50 dark:bg-gray-700/50 p-5 rounded-xl flex items-center">
-                        <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3 mr-4">
-                          <Shield className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                        </div>
-                        <div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">Posición</p>
-                          <p className="text-xl font-medium text-gray-800 dark:text-white">
-                            {userProfile?.posicion || "No asignada"}
-                          </p>
+                        <div className="bg-gray-50 dark:bg-gray-700/50 p-5 rounded-xl flex items-center">
+                          <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-3 mr-4">
+                            <Shield className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">Posición</p>
+                            <p className="text-xl font-medium text-gray-800 dark:text-white">
+                              {userProfile?.posicion || "No asignada"}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="mt-8">
-                      <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center">
-                        <Trophy className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" />
-                        Mis Estadísticas
-                      </h3>
+                      <div className="mt-8">
+                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center">
+                          <Trophy className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" />
+                          Mis Estadísticas
+                        </h3>
 
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
-                          <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">0</div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Partidos</div>
-                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
+                            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">0</div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Partidos</div>
+                          </div>
 
-                        <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
-                          <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">0</div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Goles</div>
-                        </div>
+                          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
+                            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">0</div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Goles</div>
+                          </div>
 
-                        <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
-                          <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">0</div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Asistencias</div>
-                        </div>
+                          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
+                            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">0</div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Asistencias</div>
+                          </div>
 
-                        <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
-                          <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">0</div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Tarjetas</div>
+                          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
+                            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">0</div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Tarjetas</div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          </section>
-        )}
-      </main>
-    </div>
-  )
+            </section>
+          )}
+        </main>
+      </div>
+    )
 }
 

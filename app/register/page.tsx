@@ -3,7 +3,7 @@
 import type React from "react"
 
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabaseClient"
 import { UserPlus, Mail, User, KeyRound, Hash, Loader2 } from "lucide-react"
@@ -13,10 +13,33 @@ export default function Register() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [numeroPolera, setNumeroPolera] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true) // Start with loading true to check auth
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const router = useRouter()
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const { data } = await supabase.auth.getSession()
+
+        // If user is already logged in, redirect to dashboard
+        if (data.session) {
+          router.push("/")
+          return
+        }
+
+        // If no session, allow access to register page
+        setLoading(false)
+      } catch (err) {
+        console.error("Error checking authentication:", err)
+        setLoading(false)
+      }
+    }
+
+    checkUser()
+  }, [router])
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -50,6 +73,18 @@ export default function Register() {
     } finally {
       setLoading(false)
     }
+  }
+
+  // Show loading state while checking authentication
+  if (loading && !error && !success) {
+    return (
+      <div className="contenedor-auth">
+        <div className="tarjeta-auth flex items-center justify-center">
+          <Loader2 className="animate-spin h-8 w-8 text-blue-600" />
+          <span className="ml-2">Verificando sesión...</span>
+        </div>
+      </div>
+    )
   }
 
   return (
